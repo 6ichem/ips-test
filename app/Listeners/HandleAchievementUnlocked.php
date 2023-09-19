@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Models\Achievement;
+use Exception;
 use Illuminate\Support\Facades\Log;
 
 class HandleAchievementUnlocked
@@ -22,13 +23,25 @@ class HandleAchievementUnlocked
     {
         $user = $event->user;
         $type = $event->type;
+        
+        if ($type !== "Lesson" && $type !== "Comment") {
+            throw new Exception("Invalid achievement type");
+        }
 
-        // Retrieve the user's total comment count
-        $userCommentCount = $user->comments()->count();
+        $totalCount = null;
 
-        // Fetch comment-related achievements from the database
+        switch ($type) {
+            case "Lesson":
+                $totalCount = $user->watched()->count();
+                break;
+            case "Comment":
+                $totalCount = $user->comments()->count();
+                break;
+        }
+
+        // Fetch type-related achievements from the database
         $commentAchievements = Achievement::where('type', $type)
-            ->where('required_count', '<=', $userCommentCount)
+            ->where('required_count', '<=', $totalCount)
             ->whereNotIn('id', $user->achievements->pluck('id'))
             ->get();
 
@@ -40,7 +53,6 @@ class HandleAchievementUnlocked
             Log::info("Achievement unlocked: " . $achievement->name);
         }
 
-        Log::info("Comment written");
-        Log::info("Event data: " . $userCommentCount);
+        Log::info("Event data: " . $totalCount);
     }
 }

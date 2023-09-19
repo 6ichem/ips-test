@@ -29,6 +29,6 @@ class HandleCommentWritten
         $comment = $event->comment;
         $user = User::find($comment->user_id);
 
-        AchievementUnlocked::dispatch($user, 'Lesson');
+        AchievementUnlocked::dispatch($user, 'Comment');
     }
 }

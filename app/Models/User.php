@@ -66,4 +66,9 @@ class User extends Authenticatable
             ->where('watched', true)
             ->withTimestamps();
     }
+
+    public function lessons()
+    {
+        return $this->belongsToMany(Lesson::class)->withPivot('watched');
+    }
 }

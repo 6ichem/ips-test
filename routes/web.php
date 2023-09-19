@@ -30,4 +30,4 @@ Route::prefix('/auth')->group(function(){
 });
 
 Route::middleware(['auth'])->put('/create-comment', [CommentController::class, 'store']);
-Route::middleware(['auth'])->put('/watch-lesson/{lesson}', [LessonController::class, 'watch']);
+Route::middleware(['auth'])->post('/watch-lesson/{lesson}', [LessonController::class, 'watch']);
