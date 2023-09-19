@@ -2,6 +2,7 @@
 
 namespace App\Listeners;
 
+use App\Events\BadgeUnlocked;
 use App\Models\Achievement;
 use Exception;
 use Illuminate\Support\Facades\Log;
@@ -53,6 +54,8 @@ class HandleAchievementUnlocked
             Log::info("Achievement unlocked: " . $achievement->name);
         }
 
-        Log::info("Event data: " . $totalCount);
+        Log::info("totalCount: " . $totalCount);
+        
+        BadgeUnlocked::dispatch($user);
     }
 }

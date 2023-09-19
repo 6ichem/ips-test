@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Badge;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -13,21 +15,27 @@ class UserController extends Controller
         return $request->user();
     }
 
-    public function store(Request $request)
+    public function register(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|unique:users',
-            'password' => 'required|string|min:8',
+        $assignBadge = Badge::where('achievements_required', 0)->first();
+        
+        Log::info($assignBadge->id);
+        $data = $request->validate([
+            'name' => ['required','string','max:255'],
+            'email' => ['required','string','email','unique:users'],
+            'password' => ['required','string','min:8'],
         ]);
 
         $user = User::create([
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'password' => bcrypt($request->input('password')),
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => bcrypt($data['password']),
         ]);
+
+        $user->badge_id = $assignBadge->id;
+        $user->save();
         
-        return response()->json(['message' => 'User created successfully'], 201);
+        return response()->json($user, 201);
     }
 
     public function login(Request $request)

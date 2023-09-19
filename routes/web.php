@@ -25,7 +25,7 @@ Route::get('/users/{user}/achievements', [AchievementsController::class, 'index'
 
 // Added custom endpoints for development purposes
 Route::prefix('/auth')->group(function(){
-    Route::put('/register', [UserController::class, 'store']);
+    Route::put('/register', [UserController::class, 'register']);
     Route::post('/login', [UserController::class, 'login']);
 });
 
