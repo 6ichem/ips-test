@@ -25,7 +25,6 @@ class CommentController extends Controller
 
         CommentWritten::dispatch($comment);
 
-
         return response()->json(['message' => 'Comment created successfully'], 201);
     }
 }
