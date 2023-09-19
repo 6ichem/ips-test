@@ -27,11 +27,4 @@ class Comment extends Model
     {
         return $this->belongsTo(User::class);
     }
-
-    public function getUserComments($userId)
-    {
-        $comments = Comment::where('user_id', $userId)->get();
-
-        return $comments;
-    }
 }

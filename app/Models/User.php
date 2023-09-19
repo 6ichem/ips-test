@@ -52,4 +52,11 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Achievement::class, 'user_achievements')->withTimestamps();
     }
+
+    public function comments()
+    {
+        $comments = Comment::where('user_id', $this->id)->get();
+
+        return $comments;
+    }
 }
