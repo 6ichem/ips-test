@@ -59,4 +59,11 @@ class User extends Authenticatable
 
         return $comments;
     }
+
+    public function watched()
+    {
+        return $this->belongsToMany(Lesson::class, 'lesson_user')
+            ->where('watched', true)
+            ->withTimestamps();
+    }
 }
