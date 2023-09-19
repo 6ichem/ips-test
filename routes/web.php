@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AchievementsController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,4 +21,11 @@ Route::get('/', function () {
 });
 
 Route::get('/users/{user}/achievements', [AchievementsController::class, 'index']);
-Route::put('/create-user', [UserController::class, 'store']);
+
+Route::prefix('/auth')->group(function(){
+    Route::put('/register', [UserController::class, 'store']);
+    Route::post('/login', [UserController::class, 'login']);
+});
+
+Route::middleware(['auth'])->put('/create-comment', [CommentController::class, 'store']);
+

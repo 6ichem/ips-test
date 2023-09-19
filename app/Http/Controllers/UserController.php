@@ -1,9 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\User;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -27,5 +28,25 @@ class UserController extends Controller
         ]);
         
         return response()->json(['message' => 'User created successfully'], 201);
+    }
+
+    public function login(Request $request)
+    {
+        // Validate the request data
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        // Attempt to authenticate the user
+        if (Auth::attempt($request->only('email', 'password'))) {
+            $user = Auth::user();
+            $tokenResult = $user->createToken('authToken');
+
+            return response()->json([
+                'user' => $user,
+                'token' => $tokenResult->plainTextToken,
+            ]);
+        }
     }
 }
