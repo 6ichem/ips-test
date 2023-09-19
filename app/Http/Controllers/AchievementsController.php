@@ -9,6 +9,8 @@ class AchievementsController extends Controller
 {
     public function index(User $user)
     {
+        $currentUser = $user;
+
         return response()->json([
             'unlocked_achievements' => [],
             'next_available_achievements' => [],
