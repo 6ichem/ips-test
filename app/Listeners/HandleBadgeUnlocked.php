@@ -23,6 +23,9 @@ class HandleBadgeUnlocked
      */
     public function handle(object $event): void
     {
+        // We have access to all the badge info
+        // We have access to all the user data
+
         $payloadUser = $event->user;
 
         // Fetching the user again so we get the latest accurate result

@@ -22,6 +22,9 @@ class HandleAchievementUnlocked
      */
     public function handle(object $event): void
     {
+        // We have access to all the achievement info
+        // We have access to all the user data
+
         $user = $event->user;
         $type = $event->type;
         
