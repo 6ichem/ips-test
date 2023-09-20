@@ -63,8 +63,7 @@ class User extends Authenticatable
     public function watched()
     {
         return $this->belongsToMany(Lesson::class, 'lesson_user')
-            ->where('watched', true)
-            ->withTimestamps();
+            ->where('watched', true);
     }
 
     public function lessons()
