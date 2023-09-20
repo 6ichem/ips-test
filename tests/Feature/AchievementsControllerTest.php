@@ -60,8 +60,6 @@ class AchievementsControllerTest extends TestCase
         $nextBadge = Badge::where('achievements_required', '>', $user->achievements->count())->orderBy('achievements_required')->first()->name ?? '';
         $remainingToUnlockNextBadge = ($nextBadge !== '') ? $user->achievements->count() : 0; 
 
-        Log::info($response->json());
-
         $response->assertStatus(200)
             ->assertJson([
                 'unlocked_achievements' => $unlockedAchievements->toArray(),
@@ -86,8 +84,6 @@ class AchievementsControllerTest extends TestCase
         $currentBadge = $user->badge->name ?? '';
         $nextBadge = Badge::where('achievements_required', '>', $user->achievements->count())->orderBy('achievements_required')->first()->name ?? '';
         $remainingToUnlockNextBadge = ($nextBadge !== '') ? $user->achievements->count() : 0; 
-
-        Log::info($response->json());
 
         $response->assertStatus(200)
             ->assertJson([

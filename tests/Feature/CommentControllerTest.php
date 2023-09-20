@@ -31,7 +31,7 @@ class CommentControllerTest extends TestCase
             'body' => $this->faker->sentence,
         ];
 
-        // Make a POST request to store the comment
+        // Make a PUT request to store the comment
         $response = $this->put("/create-comment", $commentData);
 
         // Assert the response status code and message
